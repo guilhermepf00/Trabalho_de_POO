@@ -1,20 +1,5 @@
 
- public abstract class Inimigo extends Personagem {
-     privete String nome;
-     private int vida;
-     
-     public Inimigo ( String nome, int vida ) {
-         this.nome = nome;
-         this.vida = vida;
-     }
-     
-     public String getNome(){
-         return nome;
-     }
-     
-     public int getVida(){
-         return vida;
-     }
+ public interface class Inimigo {
      
      public void movimento{
          
