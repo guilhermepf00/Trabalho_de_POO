@@ -1,5 +1,5 @@
 
- public abstract class Inimigo {
+ public abstract class Inimigo extends Personagem {
      privete String nome;
      private int vida;
      
