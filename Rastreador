@@ -1,5 +1,5 @@
 
- public class Rastreador extends Inimigo {
+ public class Rastreador extends Personagem implements Inimigo {
      private int dano;
      public Comum ( String nome, int vida, int dano ) {
          super ( nome, vida );
