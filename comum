@@ -1,18 +1,8 @@
 
- public class Comum extends Inimigo {
-     private int dano;
-     public Comum ( String nome, int vida, int dano ) {
-         super ( nome, vida );
-         this.dano = dano;
-     }
+ public interface class Inimigo {
      
-     public String getDano(){
-         return dano;
+     public void movimento{
+         
      }
-     
-     @Override
-     public void movimento(){
-     }
-     
      
  }
