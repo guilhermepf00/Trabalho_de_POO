@@ -1,16 +1,12 @@
 package model;
 
 public abstract class Personagem {
-    private String nome;
-    private int vida;
+    private int vida, quantidadeBombasSimultâneas, raioDeExplosão;
      
-    public Personagem ( String nome, int vida ) {
-        this.nome = nome;
-        this.vida = vida;
-    }
-     
-    public String getNome(){
-        return nome;
+    public Personagem ( ) {
+        this.vida = 3;
+        this.quantidadeBombasSimultâneas = 1;
+        this.raioDeExplosão = 1;
     }
      
     public int getVida(){
