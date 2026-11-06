@@ -9,13 +9,7 @@ package model;
  * @author Administrator
  */
 public class Principal extends Personagem {
-    private int dano;
-    public Principal ( String nome, int vida, int dano ) {
-        super ( nome, vida );
-        this.dano = dano;
+    public Principal ( ) {
+        super ( );
     }
-     
-    public int getDano(){
-        return dano;
-    } 
  }
