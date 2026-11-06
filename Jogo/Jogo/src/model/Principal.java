@@ -9,7 +9,29 @@ package model;
  * @author Administrator
  */
 public class Principal extends Personagem {
+    private int vida, quantidadeBombasSimultâneas, raioDeExplosão;
+    
     public Principal ( ) {
-        super ( );
+        super( 3 );
+        this.quantidadeBombasSimultâneas = 1;
+        this.raioDeExplosão = 1;
     }
+
+    public int getQuantidadeBombasSimultâneas() {
+        return quantidadeBombasSimultâneas;
+    }
+
+    public void setQuantidadeBombasSimultâneas(int quantidadeBombasSimultâneas) {
+        this.quantidadeBombasSimultâneas = quantidadeBombasSimultâneas;
+    }
+
+    public int getRaioDeExplosão() {
+        return raioDeExplosão;
+    }
+
+    public void setRaioDeExplosão(int raioDeExplosão) {
+        this.raioDeExplosão = raioDeExplosão;
+    }
+    
+    
  }
