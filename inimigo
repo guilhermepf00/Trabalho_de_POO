@@ -1,8 +1,0 @@
-
- public interface class Inimigo {
-     
-     public void movimento{
-         
-     }
-     
- }
