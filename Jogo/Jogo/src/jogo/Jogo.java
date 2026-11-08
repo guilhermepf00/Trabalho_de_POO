@@ -1,17 +1,16 @@
 
 package jogo;
 
-/**
- *
- * @author Administrator
- */
-public class Jogo {
+import javax.swing.SwingUtilities;
+import interfacegrafica.TelaMenu;
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        // TODO code application logic here
-    }
+public class Jogo {
     
+    public static void main(String[] args) {
+        // Menu Principal
+        SwingUtilities.invokeLater(() -> {
+            TelaMenu menu = new TelaMenu();
+            menu.setVisible(true);
+        });
+    }
 }
