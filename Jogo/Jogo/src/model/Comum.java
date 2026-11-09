@@ -1,6 +1,7 @@
 package model;
 
 import java.util.Random;
+import interfacegrafica.JanelaJogo;
 
 public class Comum extends Personagem implements Inimigo {
     private int x;
@@ -8,19 +9,52 @@ public class Comum extends Personagem implements Inimigo {
     private int velocidade = 1;
     private Random gerador = new Random();
     
-    public Comum ( int x, int y ) {
+    private JanelaJogo janela;
+    
+    public Comum ( int x, int y, JanelaJogo janela ) {
         super ( 1 );
         this.x = x;
         this.y = y;
+        this.janela = janela;
     }
      // movimentaçao aleatoria do inimigo comum 
     @Override
     public void movimento(){
-    int direcaoX = gerador.nextInt(3) - 1;
-    int direcaoY = gerador.nextInt(3) - 1;
-        x += velocidade * direcaoX;
-        y += velocidade * direcaoY;
+        boolean moveu = false;
         
+        int novaColuna = 0;
+        int novaLinha = 0;
+        
+        
+        while(!moveu){
+            
+            int direcaoX = 0;
+            int direcaoY = 0;
+        
+            boolean qualC = gerador.nextBoolean();
+            
+            if (qualC == true) { 
+                // caso queira que fique parado: direcaoX = gerador.nextInt(3) - 1;
+                direcaoX = gerador.nextBoolean() ? 1 : -1; //desative essa caso
+            }else{
+                // caso queira que fique parado: direcaoY = gerador.nextInt(3) - 1;
+                direcaoY = gerador.nextBoolean() ? 1 : -1; //desative essa caso
+            }
+            
+            //caso ficar parado seja uma opção
+            /*if (direcaoX == 0 && direcaoY == 0){
+                break;
+            }*/
+            
+            novaColuna = x + (velocidade * direcaoX);
+            novaLinha = y + (velocidade * direcaoY);
+            
+            if (janela.podeAndar(novaLinha, novaColuna)){
+                this.x = novaColuna;
+                this.y = novaLinha;
+                moveu = true;
+            }
+        }
     }
     @Override
     public int getX (){

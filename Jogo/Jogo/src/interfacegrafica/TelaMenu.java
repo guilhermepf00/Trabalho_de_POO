@@ -11,6 +11,15 @@ public class TelaMenu extends javax.swing.JFrame {
      */
     public TelaMenu() {
         initComponents();
+        
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent e) {
+                jogo.Jogo.fim = true;
+                dispose();
+            }
+        });
     }
 
     /**
@@ -70,14 +79,21 @@ public class TelaMenu extends javax.swing.JFrame {
     private void btnIniciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarActionPerformed
         IbIMensagem.setText("Jogo Iniciado!");
         dispose();
-        javax.swing.JFrame jogo = new javax.swing.JFrame("Jogo");
-        jogo.setDefaultCloseOperation(
-                javax.swing.JFrame.DISPOSE_ON_CLOSE);
-        jogo.setContentPane(new JanelaJogo());
-        jogo.pack();
-        jogo.setResizable(false);
-        jogo.setLocationRelativeTo(null);
-        jogo.setVisible(true);
+        javax.swing.JFrame jogoJanela = new javax.swing.JFrame("Jogo");
+        jogoJanela.setDefaultCloseOperation(javax.swing.JFrame.DO_NOTHING_ON_CLOSE);
+        jogoJanela.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent e) {
+                jogo.Jogo.fim = true;
+                System.exit(0);
+            }
+        });
+
+        jogoJanela.setContentPane(new JanelaJogo());
+        jogoJanela.pack();
+        jogoJanela.setResizable(false);
+        jogoJanela.setLocationRelativeTo(null);
+        jogoJanela.setVisible(true);
     }//GEN-LAST:event_btnIniciarActionPerformed
 
     /**

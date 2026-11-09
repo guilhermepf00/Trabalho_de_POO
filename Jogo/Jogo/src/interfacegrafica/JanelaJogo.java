@@ -22,9 +22,10 @@ public class JanelaJogo extends JPanel{
     private int jogadorColuna = 1;
     
     // adicionando inimigo
-    private Comum inimigo = new Comum (2,5);
+    public Comum inimigo = new Comum (2,5, this);
     
     public JanelaJogo() {
+        
         int pilarExtra = 20;
         Random gerador = new Random();
         setPreferredSize (new Dimension (COLUNAS * CELULA, LINHAS * CELULA ));
@@ -35,14 +36,14 @@ public class JanelaJogo extends JPanel{
                 int chance = gerador.nextInt(101);
                 int chanceBox = gerador.nextInt(101);
                 boolean random = gerador.nextBoolean();
-                if (chance > 90 && !borda){
+                if (chance > 90 && !borda && i > 2 && c > 2){
                     if (random == true && pilarExtra > 0){
                         if (i != 0 || c != 0 || i != LINHAS -1 || c != COLUNAS -1){
                             mapa[i][c] = (borda || pilar || random) ? 1 : 0;
                             pilarExtra--;
                         }
                     }
-                } else if (chanceBox > 50 && !borda && !pilar){
+                } else if (chanceBox > 50 && !borda && !pilar && i > 2 && c > 2){
                     boolean boxSeed = gerador.nextBoolean();
                     if (i != 0 || c != 0 || i != LINHAS -1 || c != COLUNAS -1 ){
                         mapa[i][c] = (boxSeed) ? 2 : 0;
@@ -52,10 +53,19 @@ public class JanelaJogo extends JPanel{
                 }
             }
         }
+        
+        Timer cooldownComum = new Timer(1000, e -> {
+            inimigo.movimento();
+            repaint();
+        });
+        
+        cooldownComum.start();
+        
         vincular("UP", -1, 0);
         vincular("DOWN", 1, 0);
         vincular("LEFT", 0, -1);
         vincular("RIGHT", 0, 1);
+        vincular("SPACE", 0, 0);
         
         
     }
@@ -89,13 +99,12 @@ public class JanelaJogo extends JPanel{
         if (novaLinha < 0 || novaLinha >= LINHAS || novaColuna < 0 || novaColuna >= COLUNAS) {
             return;
         }
-        if (mapa[novaLinha][novaColuna] == 1) {
+        if (mapa[novaLinha][novaColuna] == 1 || mapa[novaLinha][novaColuna] == 2) {
             return;
         }
         jogadorLinha = novaLinha;
         jogadorColuna = novaColuna;
         repaint();
-        inimigo.movimento();
     }
 
     private void vincular(String tecla, int di, int dc) {
@@ -103,9 +112,39 @@ public class JanelaJogo extends JPanel{
         getActionMap().put(tecla, new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                mover(di, dc);
+            if (tecla.equals("SPACE")){
+                limpar();
+            } else {
+                    mover(di, dc);
+                }
             }
         });
+    }
+    
+    public void limpar(){
+        
+        int linhaInicio = jogadorLinha - 1;
+        int linhaFim = jogadorLinha + 1;
+
+        int colunaInicio = jogadorColuna - 1;
+        int colunaFim = jogadorColuna + 1;
+        
+        for (int i = linhaInicio; i <= linhaFim; i++){
+            for (int j = colunaInicio; j <= colunaFim; j++){
+                if (i >= 0 && i < LINHAS && j >= 0 && j < COLUNAS) {
+                    if (mapa[i][j] == 2){
+                        mapa[i][j] = 0;
+                    }
+                }
+            }
+        }
+    }
+    
+    public boolean podeAndar(int linha, int coluna) {
+        if (linha < 0 || linha >= LINHAS || coluna < 0 || coluna > COLUNAS){
+            return false;
+        }
+        return mapa[linha][coluna] != 1;
     }
     
     public static void main(String[] args) {
