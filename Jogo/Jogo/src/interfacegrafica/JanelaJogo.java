@@ -9,6 +9,7 @@ import javax.swing.KeyStroke;
 import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import javax.swing.*;
+import model.Comum;
 
 import java.util.Random;
 
@@ -19,6 +20,9 @@ public class JanelaJogo extends JPanel{
     private final int[][] mapa = new int[LINHAS][COLUNAS];
     private int jogadorLinha = 1;
     private int jogadorColuna = 1;
+    
+    // adicionando inimigo
+    private Comum inimigo = new Comum (2,5);
     
     public JanelaJogo() {
         int pilarExtra = 20;
@@ -52,6 +56,8 @@ public class JanelaJogo extends JPanel{
         vincular("DOWN", 1, 0);
         vincular("LEFT", 0, -1);
         vincular("RIGHT", 0, 1);
+        
+        
     }
     
     @Override
@@ -71,6 +77,10 @@ public class JanelaJogo extends JPanel{
         }
         g.setColor(Color.BLUE);
         g.fillOval(jogadorColuna * CELULA + 3, jogadorLinha * CELULA + 3, CELULA - 6, CELULA - 6);
+        
+        // inimigo
+        g.setColor(Color.RED); // 
+        g.fillOval(inimigo.getX() * CELULA + 3, inimigo.getY() * CELULA + 3, CELULA - 6, CELULA - 6);
     }
     
     private void mover(int di, int dc) {
@@ -85,6 +95,7 @@ public class JanelaJogo extends JPanel{
         jogadorLinha = novaLinha;
         jogadorColuna = novaColuna;
         repaint();
+        inimigo.movimento();
     }
 
     private void vincular(String tecla, int di, int dc) {
