@@ -178,11 +178,11 @@ public class JanelaJogo extends JPanel{
         repaint();
         
         Timer explosão = new Timer(5000, e ->{
-        int linhaInicio = novaBomba.getLinha() - 1;
-        int linhaFim = novaBomba.getLinha() + 1;
+        int linhaInicio = novaBomba.getLinha() - 1 * jogador.getRaioDeExplosão();
+        int linhaFim = novaBomba.getLinha() + 1 * jogador.getRaioDeExplosão();
 
-        int colunaInicio = novaBomba.getColuna() - 1;
-        int colunaFim = novaBomba.getColuna() + 1;
+        int colunaInicio = novaBomba.getColuna() - 1 * jogador.getRaioDeExplosão();
+        int colunaFim = novaBomba.getColuna() + 1 * jogador.getRaioDeExplosão();
         
         for (int i = linhaInicio; i <= linhaFim; i++){
             for (int j = colunaInicio; j <= colunaFim; j++){
