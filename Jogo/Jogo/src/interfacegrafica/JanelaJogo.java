@@ -178,19 +178,41 @@ public class JanelaJogo extends JPanel{
         repaint();
         
         Timer explosão = new Timer(5000, e ->{
-        int linhaInicio = novaBomba.getLinha() - 1 * jogador.getRaioDeExplosão();
-        int linhaFim = novaBomba.getLinha() + 1 * jogador.getRaioDeExplosão();
-
-        int colunaInicio = novaBomba.getColuna() - 1 * jogador.getRaioDeExplosão();
-        int colunaFim = novaBomba.getColuna() + 1 * jogador.getRaioDeExplosão();
+        int l = novaBomba.getLinha(), c =  novaBomba.getColuna();  
+            
+        int esquerda = novaBomba.getColuna() - jogador.getRaioDeExplosão();
+        for ( int j = c - 1 ; j >= esquerda; j-- ){
+            if ( mapa[l][j] == 1 )
+                break;
+            if (mapa[l][j] == 2){
+                    mapa[l][j] = 0;
+            }
+        }
         
-        for (int i = linhaInicio; i <= linhaFim; i++){
-            for (int j = colunaInicio; j <= colunaFim; j++){
-                if (i >= 0 && i < LINHAS && j >= 0 && j < COLUNAS) {
-                    if (mapa[i][j] == 2){
-                        mapa[i][j] = 0;
-                    }
-                }
+        int direita = novaBomba.getColuna() + jogador.getRaioDeExplosão();
+        for ( int j = c + 1 ; j <= direita; j++ ){
+            if ( mapa[l][j] == 1 )
+                break;
+            if (mapa[l][j] == 2){
+                    mapa[l][j] = 0;
+            }
+        }
+        
+        int cima = novaBomba.getLinha() - jogador.getRaioDeExplosão();
+        for ( int i = l - 1 ; i >= cima; i-- ){
+            if ( mapa[i][c] == 1 )
+                break;
+            if (mapa[i][c] == 2){
+                    mapa[i][c] = 0;
+            }
+        }
+        
+        int baixo = novaBomba.getLinha() + jogador.getRaioDeExplosão();
+        for ( int i = l + 1 ; i <= baixo; i++ ){
+            if ( mapa[i][c] == 1 )
+                break;
+            if (mapa[i][c] == 2){
+                    mapa[i][c] = 0;
             }
         }
         
