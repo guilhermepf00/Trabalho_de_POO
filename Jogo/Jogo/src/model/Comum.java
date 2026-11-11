@@ -23,8 +23,6 @@ public class Comum extends Personagem implements Inimigo {
     @Override
     public void movimento(){
         boolean moveu = false;
-        int direcaoX = 0;
-        int direcaoY = 0;
         int novaColuna = 0;
         int novaLinha = 0;
         
@@ -33,7 +31,8 @@ public class Comum extends Personagem implements Inimigo {
         while(!moveu && tentativas < 50){
             tentativas++;
             boolean qualC = gerador.nextBoolean();
-            
+            int direcaoX = 0;
+            int direcaoY = 0;
             if (qualC == true) { 
                 // caso queira que fique parado: direcaoX = gerador.nextInt(3) - 1;
                 direcaoX = gerador.nextBoolean() ? 1 : -1; //desative essa caso

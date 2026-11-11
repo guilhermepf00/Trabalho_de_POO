@@ -27,37 +27,11 @@ public class JanelaJogo extends JPanel{
     private Sabotador inimigoS;
     
     public JanelaJogo() {
-        inimigoC = new Comum(2, 5, this);
-        inimigoR = new Rastreador(5, 2, this);
-        inimigoS = new Sabotador(4, 3, this);
+        inimigoC = new Comum(1, 19, this);
+        inimigoR = new Rastreador(19, 1, this);
+        inimigoS = new Sabotador(19, 19, this);
         
-        int pilarExtra = 20;
-        Random gerador = new Random();
-        setPreferredSize (new Dimension (COLUNAS * CELULA, LINHAS * CELULA ));
-        for (int i = 0; i < LINHAS; i++){
-            for (int c = 0; c < COLUNAS; c++){
-                boolean borda = i == 0 || c == 0 || i == LINHAS -1 || c == COLUNAS -1;
-                boolean pilar = i % 2 == 0 && c % 2 == 0;
-                int chance = gerador.nextInt(101);
-                int chanceBox = gerador.nextInt(101);
-                boolean random = gerador.nextBoolean();
-                if (chance > 90 && !borda && i > 2 && c > 2){
-                    if (random == true && pilarExtra > 0){
-                        if (i != 0 || c != 0 || i != LINHAS -1 || c != COLUNAS -1){
-                            mapa[i][c] = (borda || pilar || random) ? 1 : 0;
-                            pilarExtra--;
-                        }
-                    }
-                } else if (chanceBox > 50 && !borda && !pilar && i > 2 && c > 2){
-                    boolean boxSeed = gerador.nextBoolean();
-                    if (i != 0 || c != 0 || i != LINHAS -1 || c != COLUNAS -1 ){
-                        mapa[i][c] = (boxSeed) ? 2 : 0;
-                    }
-                }else{
-                    mapa[i][c] = (borda || pilar) ? 1 : 0;
-                }
-            }
-        }
+        gerarMapa();
         
         Timer cooldownComum = new Timer(1000, e -> {
             inimigoC.movimento();
@@ -71,6 +45,39 @@ public class JanelaJogo extends JPanel{
         vincular("LEFT", 0, -1);
         vincular("RIGHT", 0, 1);
         vincular("SPACE", 0, 0);
+    }
+    
+    public void gerarMapa(){
+        
+        int pilarExtra = 20;
+        Random gerador = new Random();
+        setPreferredSize (new Dimension (COLUNAS * CELULA, LINHAS * CELULA ));
+        for (int i = 0; i < LINHAS; i++){
+            for (int c = 0; c < COLUNAS; c++){
+                boolean borda = i == 0 || c == 0 || i == LINHAS -1 || c == COLUNAS -1;
+                boolean pilar = i % 2 == 0 && c % 2 == 0;
+                boolean random = gerador.nextBoolean();
+                int chance = gerador.nextInt(101);
+                int chanceBox = gerador.nextInt(101);
+                boolean canBox = i > 2 && c > 2 && chanceBox > 60;
+                if (chance > 90 && random == true && pilarExtra > 0){
+                    if (i != 0 || c != 0 || i != LINHAS -1 || c != COLUNAS -1){
+                        mapa[i][c] = (borda || pilar || random) ? 1 : 0;
+                        pilarExtra--;
+                    }
+                } else {  
+                    mapa[i][c] = (borda || pilar) ? 1 : (canBox ? 2 : 0);
+                }
+                if (!borda){
+                    if (i == 1 || c == 1 || i == 19 || c == 19){
+                        mapa[i][c] = 0;
+                    }
+                }
+                if (i == 1 && c == 3 || i == 3 && c == 1){
+                    mapa[i][c] = 2;
+                }
+            }
+        }
     }
     
     @Override
