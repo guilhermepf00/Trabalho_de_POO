@@ -13,35 +13,25 @@ public class Comum extends Personagem implements Inimigo {
     
     private JanelaJogo janela;
     
-    public Comum ( int x, int y, JanelaJogo janela ) {
+    public Comum ( int x, int y, JanelaJogo aThis) {
         super ( 1 );
         this.x = x;
         this.y = y;
-        this.janela = janela;
+        this.janela = aThis;
     }
      // movimentaçao aleatoria do inimigo comum 
     @Override
     public void movimento(){
         boolean moveu = false;
-    int direcaoX = gerador.nextInt(3) - 1;
-    int direcaoY = gerador.nextInt(3) - 1;
-    
-       if ( direcaoX >= 0 || direcaoX <= larguraMapa ){
-             x += velocidade * direcaoX;
-       }
-       if ( direcaoY >= 0 || direcaoY <= alturaMapa ){
-            y += velocidade * direcaoY;
-    }
-        
+        int direcaoX = 0;
+        int direcaoY = 0;
         int novaColuna = 0;
         int novaLinha = 0;
         
+        int tentativas = 0;
         
-        while(!moveu){
-            
-            int direcaoX = 0;
-            int direcaoY = 0;
-        
+        while(!moveu && tentativas < 50){
+            tentativas++;
             boolean qualC = gerador.nextBoolean();
             
             if (qualC == true) { 

@@ -1,5 +1,6 @@
 package model;
 
+import interfacegrafica.JanelaJogo;
 import java.util.Random;
 
 public class Sabotador extends Personagem implements Inimigo {
@@ -9,7 +10,7 @@ public class Sabotador extends Personagem implements Inimigo {
     private int larguraMapa = 18;
     private int alturaMapa = 18;
     private Random gerador = new Random();
-    public Sabotador ( int x, int y ) {
+    public Sabotador ( int x, int y, JanelaJogo aThis) {
         super ( 1 );
         this.x = x;
         this.y = y;

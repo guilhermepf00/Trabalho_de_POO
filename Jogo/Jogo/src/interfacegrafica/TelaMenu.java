@@ -1,7 +1,5 @@
 package interfacegrafica;
 
-import interfacegrafica.JanelaJogo;
-
 public class TelaMenu extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(TelaMenu.class.getName());

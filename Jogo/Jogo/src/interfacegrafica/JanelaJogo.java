@@ -23,8 +23,8 @@ public class JanelaJogo extends JPanel{
     private int jogadorColuna = 1;
     
     private Comum inimigoC;
-    private final Rastreador inimigoR;
-    private final Sabotador inimigoS;
+    private Rastreador inimigoR;
+    private Sabotador inimigoS;
     
     public JanelaJogo() {
         inimigoC = new Comum(2, 5, this);
@@ -117,7 +117,6 @@ public class JanelaJogo extends JPanel{
         jogadorColuna = novaColuna;
         repaint();
         
-        inimigoC.movimento();
         inimigoR.movimento();
         inimigoS.movimento();
     }
