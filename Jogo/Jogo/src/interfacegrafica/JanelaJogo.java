@@ -1,4 +1,3 @@
-
 package interfacegrafica;
 
 import java.awt.Color;
@@ -23,13 +22,14 @@ public class JanelaJogo extends JPanel{
     private int jogadorLinha = 1;
     private int jogadorColuna = 1;
     
-    // adicionando inimigo
-    public Comum inimigo = new Comum (2,5);
-    private final Comum inimigoC = new Comum (2,5);
-    private final Rastreador inimigoR = new Rastreador (5,2);
-    private final Sabotador inimigoS = new Sabotador (4,3);
+    private Comum inimigoC;
+    private final Rastreador inimigoR;
+    private final Sabotador inimigoS;
     
     public JanelaJogo() {
+        inimigoC = new Comum(2, 5, this);
+        inimigoR = new Rastreador(5, 2, this);
+        inimigoS = new Sabotador(4, 3, this);
         
         int pilarExtra = 20;
         Random gerador = new Random();
@@ -60,7 +60,7 @@ public class JanelaJogo extends JPanel{
         }
         
         Timer cooldownComum = new Timer(1000, e -> {
-            inimigo.movimento();
+            inimigoC.movimento();
             repaint();
         });
         
@@ -71,8 +71,6 @@ public class JanelaJogo extends JPanel{
         vincular("LEFT", 0, -1);
         vincular("RIGHT", 0, 1);
         vincular("SPACE", 0, 0);
-        
-        
     }
     
     @Override
@@ -93,15 +91,15 @@ public class JanelaJogo extends JPanel{
         g.setColor(Color.BLUE);
         g.fillOval(jogadorColuna * CELULA + 3, jogadorLinha * CELULA + 3, CELULA - 6, CELULA - 6);
         
-        // inimigo
+        // inimigo Comum
         g.setColor(Color.RED); 
         g.fillOval(inimigoC.getX() * CELULA + 3, inimigoC.getY() * CELULA + 3, CELULA - 6, CELULA - 6);
         
-        //inimigo Rastreador
+        // inimigo Rastreador
         g.setColor(Color.BLACK);
         g.fillOval(inimigoR.getX() * CELULA + 3, inimigoR.getY() * CELULA + 3, CELULA - 6, CELULA - 6);
         
-        //inimigo Sabotador
+        // inimigo Sabotador
         g.setColor(Color.MAGENTA);
         g.fillOval(inimigoS.getX() * CELULA + 3, inimigoS.getY() * CELULA + 3, CELULA - 6, CELULA - 6);
     }
@@ -122,7 +120,6 @@ public class JanelaJogo extends JPanel{
         inimigoC.movimento();
         inimigoR.movimento();
         inimigoS.movimento();
-   
     }
 
     private void vincular(String tecla, int di, int dc) {
@@ -130,9 +127,9 @@ public class JanelaJogo extends JPanel{
         getActionMap().put(tecla, new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-            if (tecla.equals("SPACE")){
-                limpar();
-            } else {
+                if (tecla.equals("SPACE")){
+                    limpar();
+                } else {
                     mover(di, dc);
                 }
             }
@@ -140,7 +137,6 @@ public class JanelaJogo extends JPanel{
     }
     
     public void limpar(){
-        
         int linhaInicio = jogadorLinha - 1;
         int linhaFim = jogadorLinha + 1;
 
@@ -156,10 +152,11 @@ public class JanelaJogo extends JPanel{
                 }
             }
         }
+        repaint(); // Atualiza a tela imediatamente após limpar os blocos ao redor
     }
     
     public boolean podeAndar(int linha, int coluna) {
-        if (linha < 0 || linha >= LINHAS || coluna < 0 || coluna > COLUNAS){
+        if (linha < 0 || linha >= LINHAS || coluna < 0 || coluna >= COLUNAS){
             return false;
         }
         return mapa[linha][coluna] != 1;
