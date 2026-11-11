@@ -33,12 +33,24 @@ public class JanelaJogo extends JPanel{
         
         gerarMapa();
         
-        Timer cooldownComum = new Timer(1000, e -> {
+        Timer cooldownComumC = new Timer(1000, e -> {
             inimigoC.movimento();
+            repaint();
+            
+        });
+        Timer cooldownComumR = new Timer(1000, e -> {
+            inimigoR.movimento();
             repaint();
         });
         
-        cooldownComum.start();
+        Timer cooldownComumS = new Timer(1000, e -> {
+            inimigoS.movimento();
+            repaint();
+        });
+        
+        cooldownComumC.start();
+        cooldownComumR.start();
+        cooldownComumS.start();
         
         vincular("UP", -1, 0);
         vincular("DOWN", 1, 0);
@@ -124,8 +136,6 @@ public class JanelaJogo extends JPanel{
         jogadorColuna = novaColuna;
         repaint();
         
-        inimigoR.movimento();
-        inimigoS.movimento();
     }
 
     private void vincular(String tecla, int di, int dc) {
