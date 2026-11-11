@@ -6,11 +6,15 @@ import java.awt.Graphics;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 import java.awt.event.ActionEvent;
+import java.util.LinkedHashSet;
+import java.util.Set;
 import javax.swing.AbstractAction;
 import javax.swing.*;
 import model.Comum;
 import model.Rastreador;
 import model.Sabotador;
+import model.Principal;
+import model.Bomba;
 
 import java.util.Random;
 
@@ -22,9 +26,14 @@ public class JanelaJogo extends JPanel{
     private int jogadorLinha = 1;
     private int jogadorColuna = 1;
     
+    private Principal jogador = new Principal();
+    
     private Comum inimigoC;
     private Rastreador inimigoR;
     private Sabotador inimigoS;
+    
+    Set <Bomba> bomba = new LinkedHashSet();
+    private int bombasAtivas = 0;
     
     public JanelaJogo() {
         inimigoC = new Comum(1, 19, this);
@@ -121,6 +130,11 @@ public class JanelaJogo extends JPanel{
         // inimigo Sabotador
         g.setColor(Color.MAGENTA);
         g.fillOval(inimigoS.getX() * CELULA + 3, inimigoS.getY() * CELULA + 3, CELULA - 6, CELULA - 6);
+        
+        // Bomba
+        g.setColor(Color.YELLOW);
+        for( Bomba b : bomba )
+            g.fillOval(b.getColuna() * CELULA + 3, b.getLinha() * CELULA + 3, CELULA - 6, CELULA - 6);
     }
     
     private void mover(int di, int dc) {
@@ -144,7 +158,7 @@ public class JanelaJogo extends JPanel{
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (tecla.equals("SPACE")){
-                    limpar();
+                    plantarBomba();
                 } else {
                     mover(di, dc);
                 }
@@ -152,12 +166,23 @@ public class JanelaJogo extends JPanel{
         });
     }
     
-    public void limpar(){
-        int linhaInicio = jogadorLinha - 1;
-        int linhaFim = jogadorLinha + 1;
+    public void plantarBomba(){
+        if( bombasAtivas == jogador.getQuantidadeBombasSimultâneas() ){
+            return;
+        }
+        
+        bombasAtivas++;
+        
+        Bomba novaBomba = new Bomba( jogadorLinha, jogadorColuna);
+        bomba.add(novaBomba);
+        repaint();
+        
+        Timer explosão = new Timer(5000, e ->{
+        int linhaInicio = novaBomba.getLinha() - 1;
+        int linhaFim = novaBomba.getLinha() + 1;
 
-        int colunaInicio = jogadorColuna - 1;
-        int colunaFim = jogadorColuna + 1;
+        int colunaInicio = novaBomba.getColuna() - 1;
+        int colunaFim = novaBomba.getColuna() + 1;
         
         for (int i = linhaInicio; i <= linhaFim; i++){
             for (int j = colunaInicio; j <= colunaFim; j++){
@@ -168,7 +193,14 @@ public class JanelaJogo extends JPanel{
                 }
             }
         }
+        
+        bomba.remove(novaBomba);
+        bombasAtivas--;
+        
         repaint(); // Atualiza a tela imediatamente após limpar os blocos ao redor
+        });
+        
+        explosão.start();
     }
     
     public boolean podeAndar(int linha, int coluna) {
