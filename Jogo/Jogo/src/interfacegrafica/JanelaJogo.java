@@ -10,6 +10,8 @@ import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import javax.swing.*;
 import model.Comum;
+import model.Rastreador;
+import model.Sabotador;
 
 import java.util.Random;
 
@@ -22,7 +24,9 @@ public class JanelaJogo extends JPanel{
     private int jogadorColuna = 1;
     
     // adicionando inimigo
-    private Comum inimigo = new Comum (2,5);
+    private Comum inimigoC = new Comum (2,5);
+    private Rastreador inimigoR = new Rastreador (5,2);
+    private Sabotador inimigoS = new Sabotador (4,3);
     
     public JanelaJogo() {
         int pilarExtra = 20;
@@ -79,8 +83,16 @@ public class JanelaJogo extends JPanel{
         g.fillOval(jogadorColuna * CELULA + 3, jogadorLinha * CELULA + 3, CELULA - 6, CELULA - 6);
         
         // inimigo
-        g.setColor(Color.RED); // 
-        g.fillOval(inimigo.getX() * CELULA + 3, inimigo.getY() * CELULA + 3, CELULA - 6, CELULA - 6);
+        g.setColor(Color.RED); 
+        g.fillOval(inimigoC.getX() * CELULA + 3, inimigoC.getY() * CELULA + 3, CELULA - 6, CELULA - 6);
+        
+        //inimigo Rastreador
+        g.setColor(Color.BLACK);
+        g.fillOval(inimigoR.getX() * CELULA + 3, inimigoR.getY() * CELULA + 3, CELULA - 6, CELULA - 6);
+        
+        //inimigo Sabotador
+        g.setColor(Color.MAGENTA);
+        g.fillOval(inimigoS.getX() * CELULA + 3, inimigoS.getY() * CELULA + 3, CELULA - 6, CELULA - 6);
     }
     
     private void mover(int di, int dc) {
@@ -95,7 +107,10 @@ public class JanelaJogo extends JPanel{
         jogadorLinha = novaLinha;
         jogadorColuna = novaColuna;
         repaint();
-        inimigo.movimento();
+        
+        inimigoC.movimento();
+        inimigoR.movimento();
+   
     }
 
     private void vincular(String tecla, int di, int dc) {
