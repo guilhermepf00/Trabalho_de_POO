@@ -110,6 +110,7 @@ public class JanelaJogo extends JPanel{
         
         inimigoC.movimento();
         inimigoR.movimento();
+        inimigoS.movimento();
    
     }
 
