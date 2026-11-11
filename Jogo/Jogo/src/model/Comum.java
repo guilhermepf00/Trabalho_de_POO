@@ -7,6 +7,8 @@ public class Comum extends Personagem implements Inimigo {
     private int x;
     private int y;
     private int velocidade = 1;
+    private int larguraMapa = 19;
+    private int alturaMapa = 19;
     private Random gerador = new Random();
     
     private JanelaJogo janela;
@@ -21,6 +23,15 @@ public class Comum extends Personagem implements Inimigo {
     @Override
     public void movimento(){
         boolean moveu = false;
+    int direcaoX = gerador.nextInt(3) - 1;
+    int direcaoY = gerador.nextInt(3) - 1;
+    
+       if ( direcaoX >= 0 || direcaoX <= larguraMapa ){
+             x += velocidade * direcaoX;
+       }
+       if ( direcaoY >= 0 || direcaoY <= alturaMapa ){
+            y += velocidade * direcaoY;
+    }
         
         int novaColuna = 0;
         int novaLinha = 0;
