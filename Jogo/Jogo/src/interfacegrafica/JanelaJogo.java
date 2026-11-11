@@ -6,8 +6,8 @@ import java.awt.Graphics;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 import java.awt.event.ActionEvent;
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import javax.swing.AbstractAction;
 import javax.swing.*;
 import model.Comum;
@@ -32,8 +32,7 @@ public class JanelaJogo extends JPanel{
     private Rastreador inimigoR;
     private Sabotador inimigoS;
     
-    Set <Bomba> bomba = new LinkedHashSet();
-    private int bombasAtivas = 0;
+    Map <String, Bomba> bomba = new LinkedHashMap<>();
     
     public JanelaJogo() {
         inimigoC = new Comum(1, 19, this);
@@ -133,7 +132,7 @@ public class JanelaJogo extends JPanel{
         
         // Bomba
         g.setColor(Color.YELLOW);
-        for( Bomba b : bomba )
+        for( Bomba b : bomba.values() )
             g.fillOval(b.getColuna() * CELULA + 3, b.getLinha() * CELULA + 3, CELULA - 6, CELULA - 6);
     }
     
@@ -167,14 +166,19 @@ public class JanelaJogo extends JPanel{
     }
     
     public void plantarBomba(){
-        if( bombasAtivas == jogador.getQuantidadeBombasSimultâneas() ){
+        String senha = jogadorLinha + "/" + jogadorColuna;
+        
+        if (bomba.containsKey(senha)) {
             return;
         }
         
-        bombasAtivas++;
+        if( bomba.size() >= jogador.getQuantidadeBombasSimultâneas() ){
+            return;
+        }
+        
         
         Bomba novaBomba = new Bomba( jogadorLinha, jogadorColuna);
-        bomba.add(novaBomba);
+        bomba.put(senha,novaBomba);
         repaint();
         
         Timer explosão = new Timer(5000, e ->{
@@ -216,12 +220,12 @@ public class JanelaJogo extends JPanel{
             }
         }
         
-        bomba.remove(novaBomba);
-        bombasAtivas--;
+        bomba.remove(senha);
         
         repaint(); // Atualiza a tela imediatamente após limpar os blocos ao redor
         });
         
+        explosão.setRepeats(false);
         explosão.start();
     }
     

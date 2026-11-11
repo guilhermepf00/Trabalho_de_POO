@@ -13,7 +13,7 @@ public class Principal extends Personagem {
     
     public Principal ( ) {
         super( 3 );
-        this.quantidadeBombasSimultâneas = 1;
+        this.quantidadeBombasSimultâneas = 3;
         this.raioDeExplosão = 1;
     }
 
