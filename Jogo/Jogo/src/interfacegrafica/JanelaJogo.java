@@ -2,6 +2,7 @@ package interfacegrafica;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
@@ -17,11 +18,12 @@ import model.Principal;
 import model.Bomba;
 
 import java.util.Random;
+import static javax.swing.JComponent.WHEN_IN_FOCUSED_WINDOW;
 
 public class JanelaJogo extends JPanel{
     private static final int LINHAS = 21;
     private static final int COLUNAS = 21;
-    private static final int CELULA = 24;
+    private static final int CELULA = 40;
     private final int[][] mapa = new int[LINHAS][COLUNAS];
     private int jogadorLinha = 1;
     private int jogadorColuna = 1;
@@ -108,7 +110,7 @@ public class JanelaJogo extends JPanel{
                 int x = c * CELULA;
                 int y = i * CELULA;
                 
-                g.setColor(mapa[i][c] == 1 ? Color.DARK_GRAY : (mapa[i][c] == 2 ? Color.ORANGE : new Color(210, 235, 210)));
+                g.setColor(mapa[i][c] == 1 ? Color.DARK_GRAY : (mapa[i][c] == 2 ? Color.ORANGE : (mapa[i][c] == 5 ? Color.RED : new Color(210, 235, 210))));
                 
                 g.fillRect(x,y, CELULA, CELULA);
                 g.setColor(Color.GRAY);
@@ -133,7 +135,8 @@ public class JanelaJogo extends JPanel{
         // Bomba
         g.setColor(Color.YELLOW);
         for( Bomba b : bomba.values() )
-            g.fillOval(b.getColuna() * CELULA + 3, b.getLinha() * CELULA + 3, CELULA - 6, CELULA - 6);
+        g.fillOval(b.getColuna() * CELULA + 3, b.getLinha() * CELULA + 3, CELULA - 6, CELULA - 6);
+        
     }
     
     private void mover(int di, int dc) {
@@ -176,54 +179,68 @@ public class JanelaJogo extends JPanel{
             return;
         }
         
-        
         Bomba novaBomba = new Bomba( jogadorLinha, jogadorColuna);
         bomba.put(senha,novaBomba);
         repaint();
         
         Timer explosão = new Timer(5000, e ->{
-        int l = novaBomba.getLinha(), c =  novaBomba.getColuna();  
+            int l = novaBomba.getLinha(), c =  novaBomba.getColuna();  
             
-        int esquerda = novaBomba.getColuna() - jogador.getRaioDeExplosão();
-        for ( int j = c - 1 ; j >= esquerda; j-- ){
-            if ( mapa[l][j] == 1 )
-                break;
-            if (mapa[l][j] == 2){
-                    mapa[l][j] = 0;
+            mapa[l][c] = 5;
+
+            int esquerda = novaBomba.getColuna() - jogador.getRaioDeExplosão();
+            for ( int j = c - 1 ; j >= esquerda; j-- ){
+                if ( mapa[l][j] == 1 )
+                    break;
+                else {
+                        mapa[l][j] = 5;
+                }
             }
-        }
-        
-        int direita = novaBomba.getColuna() + jogador.getRaioDeExplosão();
-        for ( int j = c + 1 ; j <= direita; j++ ){
-            if ( mapa[l][j] == 1 )
-                break;
-            if (mapa[l][j] == 2){
-                    mapa[l][j] = 0;
+
+            int direita = novaBomba.getColuna() + jogador.getRaioDeExplosão();
+            for ( int j = c + 1 ; j <= direita; j++ ){
+                if ( mapa[l][j] == 1 )
+                    break;
+                else {
+                        mapa[l][j] = 5;
+                }
             }
-        }
-        
-        int cima = novaBomba.getLinha() - jogador.getRaioDeExplosão();
-        for ( int i = l - 1 ; i >= cima; i-- ){
-            if ( mapa[i][c] == 1 )
-                break;
-            if (mapa[i][c] == 2){
-                    mapa[i][c] = 0;
+
+            int cima = novaBomba.getLinha() - jogador.getRaioDeExplosão();
+            for ( int i = l - 1 ; i >= cima; i-- ){
+                if ( mapa[i][c] == 1 )
+                    break;
+                else {
+                        mapa[i][c] = 5;
+                }
             }
-        }
-        
-        int baixo = novaBomba.getLinha() + jogador.getRaioDeExplosão();
-        for ( int i = l + 1 ; i <= baixo; i++ ){
-            if ( mapa[i][c] == 1 )
-                break;
-            if (mapa[i][c] == 2){
-                    mapa[i][c] = 0;
+
+            int baixo = novaBomba.getLinha() + jogador.getRaioDeExplosão();
+            for ( int i = l + 1 ; i <= baixo; i++ ){
+                if ( mapa[i][c] == 1 )
+                    break;
+                else {
+                        mapa[i][c] = 5;
+                }
             }
-        }
+
+            bomba.remove(senha);
         
-        bomba.remove(senha);
-        
-        repaint(); // Atualiza a tela imediatamente após limpar os blocos ao redor
+            repaint(); // Atualiza a tela imediatamente após limpar os blocos ao redor
         });
+        
+        
+        Timer fogoTimer = new Timer(1500, f ->{
+            for (int i = 0; i < LINHAS; i++){
+                for (int j = 0; j < COLUNAS; j++){
+                    if (mapa[i][j] == 5){
+                        mapa[i][j] = 0;
+                    } 
+                }
+            }
+        });
+        repaint();
+        fogoTimer.start();
         
         explosão.setRepeats(false);
         explosão.start();
