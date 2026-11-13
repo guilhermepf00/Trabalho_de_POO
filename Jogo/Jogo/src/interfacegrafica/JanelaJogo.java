@@ -28,6 +28,14 @@ public class JanelaJogo extends JPanel{
     private int jogadorLinha = 1;
     private int jogadorColuna = 1;
     
+    public int getJogadorLinha(){
+        return jogadorLinha;
+    }
+    
+    public int getJogadorColuna(){
+        return jogadorColuna;
+    }
+    
     private Principal jogador = new Principal();
     
     private Comum inimigoC;
