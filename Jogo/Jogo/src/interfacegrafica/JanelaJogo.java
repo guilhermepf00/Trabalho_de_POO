@@ -1,9 +1,12 @@
 package interfacegrafica;
 
+import static interfacegrafica.Sprites.carregarSprites;
+import static interfacegrafica.Sprites.spritePlayer;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 import java.awt.event.ActionEvent;
@@ -23,7 +26,7 @@ import static javax.swing.JComponent.WHEN_IN_FOCUSED_WINDOW;
 public class JanelaJogo extends JPanel{
     private static final int LINHAS = 21;
     private static final int COLUNAS = 21;
-    private static final int CELULA = 40;
+    private static final int CELULA = 50;
     private final int[][] mapa = new int[LINHAS][COLUNAS];
     private int jogadorLinha = 1;
     private int jogadorColuna = 1;
@@ -113,37 +116,50 @@ public class JanelaJogo extends JPanel{
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+        
+        Graphics2D g2d = (Graphics2D) g.create();
+        
+        double Zoom = 1.25;
+        
+        int larguraPainel = getWidth(), alturaPainel = getHeight();
+        int playerPixelX = jogadorColuna * CELULA, playerPixelY = jogadorLinha * CELULA;
+        
+        int offsetX = (int) ((larguraPainel / 2) - (playerPixelX + CELULA / 2) * Zoom);
+        int offsetY = (int) ((alturaPainel / 2) - (playerPixelY + CELULA / 2) * Zoom);
+        
+        g2d.translate(offsetX, offsetY);
+        g2d.scale(Zoom, Zoom);
+        
+        carregarSprites();
         for (int i = 0; i < LINHAS; i++){
             for (int c = 0; c < COLUNAS; c++){
                 int x = c * CELULA;
                 int y = i * CELULA;
                 
-                g.setColor(mapa[i][c] == 1 ? Color.DARK_GRAY : (mapa[i][c] == 2 ? Color.ORANGE : (mapa[i][c] == 5 ? Color.RED : new Color(210, 235, 210))));
+                g2d.setColor(mapa[i][c] == 1 ? Color.DARK_GRAY : (mapa[i][c] == 2 ? Color.ORANGE : (mapa[i][c] == 5 ? Color.RED : new Color(210, 235, 210))));
                 
-                g.fillRect(x,y, CELULA, CELULA);
-                g.setColor(Color.GRAY);
-                g.drawRect(x, y, CELULA, CELULA);
+                g2d.fillRect(x,y, CELULA, CELULA);
+                g2d.setColor(Color.GRAY);
+                g2d.drawRect(x, y, CELULA, CELULA);
             }
         }
-        g.setColor(Color.BLUE);
-        g.fillOval(jogadorColuna * CELULA + 3, jogadorLinha * CELULA + 3, CELULA - 6, CELULA - 6);
+        g2d.drawImage(Sprites.spritePlayer, jogadorColuna * CELULA + 3, jogadorLinha * CELULA - 20, CELULA , CELULA + 15, this);
+        
         
         // inimigo Comum
-        g.setColor(Color.RED); 
-        g.fillOval(inimigoC.getX() * CELULA + 3, inimigoC.getY() * CELULA + 3, CELULA - 6, CELULA - 6);
+        g2d.drawImage(Sprites.spriteComum, inimigoC.getX() * CELULA + 3, inimigoC.getY() * CELULA - 20, CELULA , CELULA + 15, this);
         
         // inimigo Rastreador
-        g.setColor(Color.BLACK);
-        g.fillOval(inimigoR.getX() * CELULA + 3, inimigoR.getY() * CELULA + 3, CELULA - 6, CELULA - 6);
+        g2d.drawImage(Sprites.spriteRastreador, inimigoR.getX() * CELULA + 3, inimigoR.getY() * CELULA - 20, CELULA , CELULA + 15, this);
         
         // inimigo Sabotador
-        g.setColor(Color.MAGENTA);
-        g.fillOval(inimigoS.getX() * CELULA + 3, inimigoS.getY() * CELULA + 3, CELULA - 6, CELULA - 6);
+        g2d.drawImage(Sprites.spriteSabotador, inimigoS.getX() * CELULA + 3, inimigoS.getY() * CELULA - 20, CELULA , CELULA + 15, this);
         
         // Bomba
-        g.setColor(Color.YELLOW);
+        g2d.setColor(Color.YELLOW);
         for( Bomba b : bomba.values() )
-        g.fillOval(b.getColuna() * CELULA + 3, b.getLinha() * CELULA + 3, CELULA - 6, CELULA - 6);
+        g2d.fillOval(b.getColuna() * CELULA + 3, b.getLinha() * CELULA + 3, CELULA - 6, CELULA - 6);
+        
         
     }
     
