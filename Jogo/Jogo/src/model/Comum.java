@@ -2,6 +2,7 @@ package model;
 
 import java.util.Random;
 import interfacegrafica.JanelaJogo;
+import javax.swing.Timer;
 
 public class Comum extends Personagem implements Inimigo {
     private int x;
@@ -10,6 +11,7 @@ public class Comum extends Personagem implements Inimigo {
     private int larguraMapa = 19;
     private int alturaMapa = 19;
     private Random gerador = new Random();
+    private Timer timerMovimento;
     
     private JanelaJogo janela;
     
@@ -18,6 +20,11 @@ public class Comum extends Personagem implements Inimigo {
         this.x = x;
         this.y = y;
         this.janela = aThis;
+        timerMovimento = new Timer(1000, e -> {
+            movimento();
+            janela.repaint();
+        });
+        timerMovimento.start();
     }
      // movimentaçao aleatoria do inimigo comum 
     @Override
@@ -64,6 +71,12 @@ public class Comum extends Personagem implements Inimigo {
     @Override
     public int getY(){
         return y;
+    }
+    
+    //timer de movimento
+    @Override
+    public void pararMovimento(){
+        timerMovimento.stop();
     }
 }
 

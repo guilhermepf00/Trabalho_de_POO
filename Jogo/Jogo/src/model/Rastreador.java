@@ -2,12 +2,14 @@ package model;
 
 import java.util.Random;
 import interfacegrafica.JanelaJogo;
+import javax.swing.Timer;
 
 public class Rastreador extends Personagem implements Inimigo {
-     private int x;
+    private int x;
     private int y;
     private int velocidade;
     private Random gerador = new Random();
+    private Timer timerMovimento;
     
     private JanelaJogo janela;
     
@@ -16,6 +18,11 @@ public class Rastreador extends Personagem implements Inimigo {
         this.x = x;
         this.y = y;
         this.janela = aThis;
+        timerMovimento = new Timer(1000, e -> {
+            movimento();
+            janela.repaint();
+        });
+        timerMovimento.start();
     }
 
     public void setVelocidade(int velocidade) {
@@ -114,5 +121,9 @@ public class Rastreador extends Personagem implements Inimigo {
     public int getY(){
         return y;
     }
-        
+    
+    @Override
+    public void pararMovimento(){
+        timerMovimento.stop();
+    }
 }

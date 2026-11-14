@@ -10,6 +10,8 @@ import java.awt.Graphics2D;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 import java.awt.event.ActionEvent;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import javax.swing.AbstractAction;
@@ -19,9 +21,11 @@ import model.Rastreador;
 import model.Sabotador;
 import model.Principal;
 import model.Bomba;
-
 import java.util.Random;
+import java.util.Set;
 import static javax.swing.JComponent.WHEN_IN_FOCUSED_WINDOW;
+import model.Inimigo;
+import model.Personagem;
 
 public class JanelaJogo extends JPanel{
     private static final int LINHAS = 21;
@@ -47,31 +51,18 @@ public class JanelaJogo extends JPanel{
     
     Map <String, Bomba> bomba = new LinkedHashMap<>();
     
+    ArrayList <Inimigo> inimigosArray = new ArrayList<>();
+    
     public JanelaJogo() {
         inimigoC = new Comum(1, 19, this);
         inimigoR = new Rastreador(19, 1, this);
         inimigoS = new Sabotador(19, 19, this);
         
+        inimigosArray.add(0, inimigoC);
+        inimigosArray.add(1, inimigoR);
+        inimigosArray.add(2, inimigoS);
+        
         gerarMapa();
-        
-        Timer cooldownComumC = new Timer(1000, e -> {
-            inimigoC.movimento();
-            repaint();
-            
-        });
-        Timer cooldownComumR = new Timer(1000, e -> {
-            inimigoR.movimento();
-            repaint();
-        });
-        
-        Timer cooldownComumS = new Timer(1000, e -> {
-            inimigoS.movimento();
-            repaint();
-        });
-        
-        cooldownComumC.start();
-        cooldownComumR.start();
-        cooldownComumS.start();
         
         vincular("UP", -1, 0);
         vincular("DOWN", 1, 0);
@@ -145,16 +136,19 @@ public class JanelaJogo extends JPanel{
         }
         g2d.drawImage(Sprites.spritePlayer, jogadorColuna * CELULA + 3, jogadorLinha * CELULA - 20, CELULA , CELULA + 15, this);
         
-        
-        // inimigo Comum
-        g2d.drawImage(Sprites.spriteComum, inimigoC.getX() * CELULA + 3, inimigoC.getY() * CELULA - 20, CELULA , CELULA + 15, this);
-        
-        // inimigo Rastreador
-        g2d.drawImage(Sprites.spriteRastreador, inimigoR.getX() * CELULA + 3, inimigoR.getY() * CELULA - 20, CELULA , CELULA + 15, this);
-        
-        // inimigo Sabotador
-        g2d.drawImage(Sprites.spriteSabotador, inimigoS.getX() * CELULA + 3, inimigoS.getY() * CELULA - 20, CELULA , CELULA + 15, this);
-        
+        for( Inimigo i : inimigosArray ){
+            // inimigo Comum
+            if( i instanceof Comum )
+            g2d.drawImage(Sprites.spriteComum, i.getX() * CELULA + 3, i.getY() * CELULA - 20, CELULA , CELULA + 15, this);
+            else
+                // inimigo Rastreador
+                if( i instanceof Rastreador )
+                g2d.drawImage(Sprites.spriteRastreador, i.getX() * CELULA + 3, i.getY() * CELULA - 20, CELULA , CELULA + 15, this);
+                else
+                    // inimigo Sabotador
+                    if( i instanceof Sabotador )
+                    g2d.drawImage(Sprites.spriteSabotador, i.getX() * CELULA + 3, i.getY() * CELULA - 20, CELULA , CELULA + 15, this);
+        }
         // Bomba
         g2d.setColor(Color.YELLOW);
         for( Bomba b : bomba.values() )
@@ -247,24 +241,51 @@ public class JanelaJogo extends JPanel{
                         mapa[i][c] = 5;
                 }
             }
-
+            
+            
+            //Sistema de dano inimigos
+            for( int i = inimigosArray.size() - 1; i >= 0; i-- ){
+                Inimigo inimigo = inimigosArray.get(i);
+                
+                if( mapa[inimigo.getY()][inimigo.getX()] == 5){
+                    Personagem p = (Personagem) inimigo;
+                    p.setVida( p.getVida() - 1 );
+                    if( p.getVida() == 0){
+                        inimigo.pararMovimento();
+                        inimigosArray.remove(i);
+                    }
+                }
+                    
+            }
+            
+            //Dano no personagem
+            if( mapa[jogadorLinha][jogadorColuna] == 5){
+                jogador.setVida(jogador.getVida() - 1);
+                if( jogador.getVida() <= 0){
+                    System.out.println("Game over");
+                    System.exit(0);
+                }
+            }
+            
             bomba.remove(senha);
         
             repaint(); // Atualiza a tela imediatamente após limpar os blocos ao redor
-        });
-        
-        
-        Timer fogoTimer = new Timer(1500, f ->{
-            for (int i = 0; i < LINHAS; i++){
-                for (int j = 0; j < COLUNAS; j++){
-                    if (mapa[i][j] == 5){
-                        mapa[i][j] = 0;
-                    } 
+            
+            Timer fogoTimer = new Timer(1500, f ->{
+                for (int i = 0; i < LINHAS; i++){
+                    for (int j = 0; j < COLUNAS; j++){
+                        if (mapa[i][j] == 5){
+                            mapa[i][j] = 0;
+                        } 
+                    }
                 }
-            }
+                repaint();
+            });
+            fogoTimer.setRepeats(false);
+            fogoTimer.start();
+        
         });
-        repaint();
-        fogoTimer.start();
+        
         
         explosão.setRepeats(false);
         explosão.start();

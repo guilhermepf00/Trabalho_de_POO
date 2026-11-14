@@ -2,14 +2,16 @@ package model;
 
 import java.util.Random;
 import interfacegrafica.JanelaJogo;
+import javax.swing.Timer;
 
 public class Sabotador extends Personagem implements Inimigo {
-     private int x;
+    private int x;
     private int y;
     private int velocidade = 1;
     private int larguraMapa = 19;
     private int alturaMapa = 19;
     private Random gerador = new Random();
+    private Timer timerMovimento;
     
     private JanelaJogo janela;
     
@@ -18,6 +20,11 @@ public class Sabotador extends Personagem implements Inimigo {
         this.x = x;
         this.y = y;
         this.janela = aThis;
+        timerMovimento = new Timer(1000, e -> {
+            movimento();
+            janela.repaint();
+        });
+        timerMovimento.start();
     }
     
     @Override
@@ -66,5 +73,9 @@ public class Sabotador extends Personagem implements Inimigo {
     public int getY(){
         return y;
     }
-        
+    
+    @Override
+    public void pararMovimento(){
+        timerMovimento.stop();
+    }
 }
