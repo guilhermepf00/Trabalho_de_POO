@@ -170,6 +170,15 @@ public class JanelaJogo extends JPanel{
         jogadorColuna = novaColuna;
         repaint();
         
+        for( Inimigo i : inimigosArray ){
+            if( jogadorLinha == i.getY() && jogadorColuna == i.getX()){
+                jogador.tomarDano();
+                if( jogador.getVida() <= 0){
+                    System.out.println("Game over");
+                    System.exit(0);
+                }
+            }
+        }
     }
 
     private void vincular(String tecla, int di, int dc) {
@@ -260,7 +269,7 @@ public class JanelaJogo extends JPanel{
             
             //Dano no personagem
             if( mapa[jogadorLinha][jogadorColuna] == 5){
-                jogador.setVida(jogador.getVida() - 1);
+                jogador.tomarDano();
                 if( jogador.getVida() <= 0){
                     System.out.println("Game over");
                     System.exit(0);

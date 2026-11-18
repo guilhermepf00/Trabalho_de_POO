@@ -1,20 +1,30 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package model;
+import javax.swing.Timer;
 
-/**
- *
- * @author Administrator
- */
 public class Principal extends Personagem {
-    private int vida, quantidadeBombasSimultâneas, raioDeExplosão;
+    private int quantidadeBombasSimultâneas, raioDeExplosão;
+    private Timer timerInvulneravel;
+    private boolean invulneravel;
     
     public Principal ( ) {
         super( 3 );
         this.quantidadeBombasSimultâneas = 3;
         this.raioDeExplosão = 2;
+        this.invulneravel = false;
+        
+        this.timerInvulneravel = new Timer( 3000, e -> {
+            invulneravel = false;
+            timerInvulneravel.stop();
+        });
+        this.timerInvulneravel.setRepeats(false);
+    }
+    
+    public void tomarDano(){
+        if( invulneravel == false ){
+            setVida(getVida() - 1);
+            this.invulneravel = true;
+            this.timerInvulneravel.start();
+        }
     }
 
     public int getQuantidadeBombasSimultâneas() {
@@ -32,6 +42,5 @@ public class Principal extends Personagem {
     public void setRaioDeExplosão(int raioDeExplosão) {
         this.raioDeExplosão = raioDeExplosão;
     }
-    
     
  }
