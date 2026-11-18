@@ -3,6 +3,7 @@ package model;
 import java.util.Random;
 import interfacegrafica.JanelaJogo;
 import javax.swing.Timer;
+import model.Bomba;
 
 public class Sabotador extends Personagem implements Inimigo {
     private int x;
@@ -40,6 +41,48 @@ public class Sabotador extends Personagem implements Inimigo {
             boolean qualC = gerador.nextBoolean();
             int direcaoX = 0;
             int direcaoY = 0;
+            
+            int perseguindoBomba = 0;
+            // cordenada  do inimigo e da bomba
+            int inimigoX = this.x;
+            int inimigoY = this.y;
+            
+            int BombaY = janela.getBombaLinha();
+            int BombaX = janela.getBombaColuna();
+            
+            // distancia de inimigo para jogador 
+            int distanciaY = Math.abs( inimigoY - BombaY );
+            int distanciaX = Math.abs( inimigoX - BombaX );
+            
+            if ( inimigoX == BombaX && distanciaY <= 8 && distanciaY > 0 ){
+                
+
+                perseguindoBomba = 1;
+                
+                if ( inimigoY < BombaY ){
+                    direcaoY = 1;
+                }
+                
+                else if ( inimigoY > BombaY ){
+                    direcaoY = -1;
+                }
+            }
+                if ( inimigoY == BombaY && distanciaX <= 5 && distanciaX > 0 ){
+                    
+                    
+                    perseguindoBomba = 1;
+
+                  if ( inimigoX < BombaX ){
+                    direcaoX = 1;
+                }
+                
+                  else if ( inimigoX > BombaX ){
+                    direcaoX = -1;
+                }
+                    
+            }
+                if ( perseguindoBomba == 0){
+            
             if (qualC == true) { 
                 // caso queira que fique parado: direcaoX = gerador.nextInt(3) - 1;
                 direcaoX = gerador.nextBoolean() ? 1 : -1; //desative essa caso
@@ -47,6 +90,7 @@ public class Sabotador extends Personagem implements Inimigo {
                 // caso queira que fique parado: direcaoY = gerador.nextInt(3) - 1;
                 direcaoY = gerador.nextBoolean() ? 1 : -1; //desative essa caso
             }
+                }
             
             //caso ficar parado seja uma opção
             /*if (direcaoX == 0 && direcaoY == 0){
