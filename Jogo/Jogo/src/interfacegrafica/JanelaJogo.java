@@ -34,6 +34,8 @@ public class JanelaJogo extends JPanel{
     private final int[][] mapa = new int[LINHAS][COLUNAS];
     private int jogadorLinha = 1;
     private int jogadorColuna = 1;
+    private int bombaLinha = -1;
+    private int bombaColuna = -1;
     
     public int getJogadorLinha(){
         return jogadorLinha;
@@ -41,6 +43,14 @@ public class JanelaJogo extends JPanel{
     
     public int getJogadorColuna(){
         return jogadorColuna;
+    }
+    
+    public int getBombaLinha(){
+        return bombaLinha;
+    }
+    
+    public int getBombaColuna(){
+        return bombaColuna;
     }
     
     private Principal jogador = new Principal();
@@ -210,6 +220,13 @@ public class JanelaJogo extends JPanel{
         bomba.put(senha,novaBomba);
         repaint();
         
+          //pega a distancia do inimigo em relação a bomba 
+         int distanciaBombaY = Math.abs( inimigoS.getY() - novaBomba.getLinha() );
+         int distanciaBombaX = Math.abs( inimigoS.getX() - novaBomba.getColuna() );
+         
+         //desarma a bomba 
+        if ( distanciaBombaY >= 2 || distanciaBombaX >= 2 ){
+
         Timer explosão = new Timer(5000, e ->{
             int l = novaBomba.getLinha(), c =  novaBomba.getColuna();  
             
@@ -277,7 +294,10 @@ public class JanelaJogo extends JPanel{
             }
             
             bomba.remove(senha);
-        
+            
+            // reinicia depois que a bomba explode
+        bombaLinha = -1;
+        bombaColuna = -1;
             repaint(); // Atualiza a tela imediatamente após limpar os blocos ao redor
             
             Timer fogoTimer = new Timer(1500, f ->{
@@ -298,6 +318,7 @@ public class JanelaJogo extends JPanel{
         
         explosão.setRepeats(false);
         explosão.start();
+    }
     }
     
     public boolean podeAndar(int linha, int coluna) {
