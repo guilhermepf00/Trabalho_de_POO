@@ -1,30 +1,16 @@
 package model;
-import javax.swing.Timer;
 
 public class Principal extends Personagem {
     private int quantidadeBombasSimultâneas, raioDeExplosão;
-    private Timer timerInvulneravel;
-    private boolean invulneravel;
     
     public Principal ( ) {
         super( 3 );
         this.quantidadeBombasSimultâneas = 3;
-        this.raioDeExplosão = 2;
-        this.invulneravel = false;
-        
-        this.timerInvulneravel = new Timer( 3000, e -> {
-            invulneravel = false;
-            timerInvulneravel.stop();
-        });
-        this.timerInvulneravel.setRepeats(false);
+        this.raioDeExplosão = 2;      
     }
     
     public void tomarDano(){
-        if( invulneravel == false ){
-            setVida(getVida() - 1);
-            this.invulneravel = true;
-            this.timerInvulneravel.start();
-        }
+        setVida(getVida() - 1);
     }
 
     public int getQuantidadeBombasSimultâneas() {
