@@ -22,6 +22,8 @@ public class TelaMenu extends javax.swing.JFrame {
                 dispose();
             }
         });
+        
+        setLocationRelativeTo(null);
     }
 
     /**
@@ -36,6 +38,8 @@ public class TelaMenu extends javax.swing.JFrame {
         jFrame1 = new javax.swing.JFrame();
         btnIniciar = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
+        btnIniciar1 = new javax.swing.JButton();
+        btnIniciar2 = new javax.swing.JButton();
 
         javax.swing.GroupLayout jFrame1Layout = new javax.swing.GroupLayout(jFrame1.getContentPane());
         jFrame1.getContentPane().setLayout(jFrame1Layout);
@@ -50,34 +54,53 @@ public class TelaMenu extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        btnIniciar.setText("Play Game");
+        btnIniciar.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
+        btnIniciar.setText("Jogar");
         btnIniciar.addActionListener(this::btnIniciarActionPerformed);
 
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/logo.png"))); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 48)); // NOI18N
+        jLabel3.setText("BOMBERMAN");
         jLabel3.setMaximumSize(new java.awt.Dimension(500, 500));
+        jLabel3.setMinimumSize(new java.awt.Dimension(500, 500));
         jLabel3.setPreferredSize(new java.awt.Dimension(500, 500));
+
+        btnIniciar1.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
+        btnIniciar1.setText("Ranking");
+        btnIniciar1.addActionListener(this::btnIniciar1ActionPerformed);
+
+        btnIniciar2.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
+        btnIniciar2.setText("Sair");
+        btnIniciar2.addActionListener(this::btnIniciar2ActionPerformed);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(20, 319, Short.MAX_VALUE)
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(14, 14, 14))
             .addGroup(layout.createSequentialGroup()
-                .addGap(24, 24, 24)
-                .addComponent(btnIniciar, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(257, 257, 257)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnIniciar2, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnIniciar1, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnIniciar, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(240, 240, 240)
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(247, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(16, 16, 16)
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 127, Short.MAX_VALUE)
+                .addContainerGap(21, Short.MAX_VALUE)
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(31, 31, 31)
                 .addComponent(btnIniciar, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(53, 53, 53))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnIniciar1, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnIniciar2, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18))
         );
 
         pack();
@@ -102,6 +125,15 @@ public class TelaMenu extends javax.swing.JFrame {
         jogoJanela.setLocationRelativeTo(null);
         jogoJanela.setVisible(true);
     }//GEN-LAST:event_btnIniciarActionPerformed
+
+    private void btnIniciar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciar1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnIniciar1ActionPerformed
+
+    private void btnIniciar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciar2ActionPerformed
+        TelaSaida novaTela = new TelaSaida();
+        novaTela.setVisible(true);
+    }//GEN-LAST:event_btnIniciar2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -130,6 +162,8 @@ public class TelaMenu extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnIniciar;
+    private javax.swing.JButton btnIniciar1;
+    private javax.swing.JButton btnIniciar2;
     private javax.swing.JFrame jFrame1;
     private javax.swing.JLabel jLabel3;
     // End of variables declaration//GEN-END:variables
