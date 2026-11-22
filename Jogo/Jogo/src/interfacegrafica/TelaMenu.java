@@ -56,6 +56,7 @@ public class TelaMenu extends javax.swing.JFrame {
 
         btnIniciar.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
         btnIniciar.setText("Jogar");
+        btnIniciar.setFocusPainted(false);
         btnIniciar.addActionListener(this::btnIniciarActionPerformed);
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 48)); // NOI18N
@@ -66,10 +67,12 @@ public class TelaMenu extends javax.swing.JFrame {
 
         btnIniciar1.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
         btnIniciar1.setText("Ranking");
+        btnIniciar1.setFocusPainted(false);
         btnIniciar1.addActionListener(this::btnIniciar1ActionPerformed);
 
         btnIniciar2.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
         btnIniciar2.setText("Sair");
+        btnIniciar2.setFocusPainted(false);
         btnIniciar2.addActionListener(this::btnIniciar2ActionPerformed);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -107,23 +110,8 @@ public class TelaMenu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnIniciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarActionPerformed
-
-        dispose();
-        javax.swing.JFrame jogoJanela = new javax.swing.JFrame("Jogo");
-        jogoJanela.setDefaultCloseOperation(javax.swing.JFrame.DO_NOTHING_ON_CLOSE);
-        jogoJanela.addWindowListener(new java.awt.event.WindowAdapter() {
-            @Override
-            public void windowClosing(java.awt.event.WindowEvent e) {
-                jogo.Jogo.fim = true;
-                System.exit(0);
-            }
-        });
-
-        jogoJanela.setContentPane(new JanelaJogo());
-        jogoJanela.pack();
-        jogoJanela.setResizable(false);
-        jogoJanela.setLocationRelativeTo(null);
-        jogoJanela.setVisible(true);
+        TelaJogar novaTela = new TelaJogar();
+        novaTela.setVisible(true);
     }//GEN-LAST:event_btnIniciarActionPerformed
 
     private void btnIniciar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciar1ActionPerformed

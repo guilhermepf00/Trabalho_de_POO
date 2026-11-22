@@ -2,11 +2,13 @@ package model;
 
 public class Principal extends Personagem {
     private int quantidadeBombasSimultâneas, raioDeExplosão;
+    private String nome;
     
     public Principal ( ) {
         super( 3 );
         this.quantidadeBombasSimultâneas = 3;
-        this.raioDeExplosão = 2;      
+        this.raioDeExplosão = 2;
+        this.nome = "";
     }
     
     public void tomarDano(){
@@ -27,6 +29,14 @@ public class Principal extends Personagem {
 
     public void setRaioDeExplosão(int raioDeExplosão) {
         this.raioDeExplosão = raioDeExplosão;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
     }
     
  }
