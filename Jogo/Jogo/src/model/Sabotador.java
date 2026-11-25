@@ -67,7 +67,7 @@ public class Sabotador extends Personagem implements Inimigo {
                     direcaoY = -1;
                 }
             }
-                if ( inimigoY == BombaY && distanciaX <= 5 && distanciaX > 0 ){
+                if ( inimigoY == BombaY && distanciaX <= 8 && distanciaX > 0 ){
                     
                     
                     perseguindoBomba = 1;
